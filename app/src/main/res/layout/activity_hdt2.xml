@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Hdt2">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="casual"
+        android:textAlignment="center"
+        android:text="Larangan Membuat Sesuatu yang Baru dalam Agama"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.045" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="عَنْ أُمِّ الْمُؤْمِنِيْنَ أُمِّ عَبْدِ اللهِ عَائِشَةَ رَضِيَ اللهُ عَنْهَا قَالَتْ: قَالَ رَسُوْلُ اللهِ صَلَّى اللهُ عَلَيْهَ وَسَلَّمَ: “مَنْ أَحْدَثَ فِيْ أَمْرِنَا هَذَا مَا لَيْسَ مِنْهُ فَهُوَ رَدٌّ” رَوَاهُ الْبُخَارِيُّ وَمُسْلِمٌ. وَفِيْ رِوَايَةٍ لِمُسْلِمٍ: “مَنْ عَمِلَ عَمَلاً لَيْسَ عَلَيْهَ أَمْرُنَا فَهُوَ رَدٌّ”"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.242" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="“Dari Ummul Mukminin, Ummu Abdillah ‘Aisyah radhiyallahu ‘anha, dia berkata: Rasulullah shallallahu ‘alaihi wa sallam bersabda: “Barangsiapa yang (memulai) mengada-adakan (sesuatu yang baru) dalam urusan (agama) kami ini yang bukan termasuk bagian darinya, maka amalan tersebut tertolak.” (HR. Bukhari dan Muslim)[1]
+
+Dalam riwayat Muslim disebutkan: ”Barangsiapa yang mengerjakan sebuah amalan yang tidak terdapat padanya perintah kami, maka amalan tersebut tertolak.”[2]
+
+[1] Diriwayatkan oleh al Bukhari (2697) dan Muslim (1718)
+
+[2] Diriwayatkan oleh Muslim (1718) dan diriwayatkan oleh al Bukhari secara mu’allaq dalam Kitab al Buyu’ Bab An Najsy (4/356, Al Fath) dan Kitab al I’tishom bil Kitab Wa as Sunnah Bab Idza Ijtahada al ‘Amil au al Hakim fa Akhtho’a (13/317, Fath)
+"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.537" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

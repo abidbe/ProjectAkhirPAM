@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "602457952795",
+    "project_id": "projectakhirpam-4816c",
+    "storage_bucket": "projectakhirpam-4816c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602457952795:android:b5201cd99d7c7a3a4b1ebe",
+        "android_client_info": {
+          "package_name": "com.example.projectakhirpam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602457952795-leq6bd21eioevv5jb8nrct1407jbbl04.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxCcVJSbPXEB9xPcl0GrqTwelAq14gOHA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602457952795-leq6bd21eioevv5jb8nrct1407jbbl04.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
