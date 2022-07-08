@@ -1,131 +1,97 @@
 package com.example.projectakhirpam;
 
 
-import androidx.annotation.NonNull;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-import com.example.projectakhirpam.model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class Catatan extends AppCompatActivity {
-
-    private RecyclerView recyclerView;
-    private FloatingActionButton btnAdd;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private List<User> list = new ArrayList<>();
-    private UserAdapter userAdapter;
-    private ProgressDialog progressDialog;
-
+    String[] daftar;
+    ListView listView;
+    Menu menu;
+    protected Cursor cursor;
+    Database database;
+    public static Catatan ct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catatan);
-        recyclerView = findViewById(R.id.recycler_view);
-        btnAdd = findViewById(R.id.btn_add);
-
-        progressDialog = new ProgressDialog(Catatan.this);
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Mengambil data...");
-        userAdapter = new UserAdapter(getApplicationContext(), list);
-        userAdapter.setDialog(new UserAdapter.Dialog(){
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(int pos){
-                final CharSequence[]dialogItem = {"Edit","Hapus"};
-                AlertDialog.Builder dialog = new AlertDialog.Builder(Catatan.this);
-                dialog.setItems(dialogItem, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i){
-                            case 0:
-                                Intent intent = new Intent(getApplicationContext(),EditorActivity.class);
-                                intent.putExtra("id",list.get(pos).getId());
-                                intent.putExtra("judul",list.get(pos).getJudul());
-                                intent.putExtra("isi",list.get(pos).getIsi());
-                                startActivity(intent);
-                                break;
-                            case 1 :
-                                deleteData(list.get(pos).getId());
-                                break;
-                        }
-                    }
-                });
-                dialog.show();
+            public void onClick(View view) {
+                Intent pindah = new Intent(Catatan.this,CreateCatatan.class);
+                startActivity(pindah);
             }
         });
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-        RecyclerView.ItemDecoration decoration = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(decoration);
-        recyclerView.setAdapter(userAdapter);
-        btnAdd.setOnClickListener(view ->{
-            startActivity(new Intent(getApplicationContext(),EditorActivity.class));
-        } );
+        ct = this;
+        database = new Database(this);
+        RefreshList();
     }
-    @Override
-    protected void onStart(){
-        super.onStart();
-        getData();
-    }
-    private void getData(){
-        progressDialog.show();
-        db.collection("users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @SuppressLint("NotifyDataSetChanged")
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        list.clear();
-                        if (task.isSuccessful()){
-                            for (QueryDocumentSnapshot document : task.getResult()){
-                                User user = new User(document.getString("judul"),document.getString("isi"));
-                                user.setId(document.getId());
-                                list.add(user);
-                            }
-                            userAdapter.notifyDataSetChanged();
+
+    public void RefreshList() {
+        SQLiteDatabase db = database.getReadableDatabase();
+        cursor = db.rawQuery("SELECT * FROM catatan",null);
+        daftar = new String[cursor.getCount()];
+        cursor.moveToFirst();
+        for(int i = 0; i < cursor.getCount(); i++){
+            cursor.moveToPosition(i);
+            daftar[i] = cursor.getString(0).toString();
+        }
+        listView = (ListView) findViewById(R.id.listView);
+        listView.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1,daftar));
+        listView.setSelected(true);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView arg0, View arg1, int arg2, long arg3) {
+                final String selection = daftar[arg2];
+                final CharSequence[] dialogitem = {"Lihat catatan","Update catatan","Hapus catatan"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(Catatan.this);
+                builder.setTitle("Pilihan");
+                builder.setItems(dialogitem, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item){
+                        switch (item){
+                            case 0:
+                                Intent i = new Intent(getApplicationContext(),DetailCatatan.class);
+                                i.putExtra("Judul",selection);
+                                startActivity(i);
+                                break;
+                            case 1:
+                                Intent in = new Intent(getApplicationContext(),UpdateCatatan.class);
+                                in.putExtra("Judul",selection);
+                                startActivity(in);
+                                break;
+                            case 2:
+                                SQLiteDatabase db = database.getWritableDatabase();
+                                db.execSQL("delete from catatan where Judul ='"+ selection +"'");
+                                RefreshList();
+                                break;
                         }
-                        else {
-                            Toast.makeText(getApplicationContext(),"Data gagal diambil!",Toast.LENGTH_SHORT).show();
-                        }
-                        progressDialog.dismiss();
                     }
                 });
-    }
-    private void deleteData(String id){
-        progressDialog.show();
-        db.collection("users").document(id)
-                .delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (!task.isSuccessful()){
-                            Toast.makeText(getApplicationContext(),"Data gagal dihapus!",Toast.LENGTH_SHORT).show();
-                        }
-                        progressDialog.dismiss();
-                        getData();
-                    }
-                });
+                builder.create().show();
+            }
+        });
+        ((ArrayAdapter)listView.getAdapter()).notifyDataSetInvalidated();
+
+
     }
 }
 

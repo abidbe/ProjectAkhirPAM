@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectAkhirPAM">
         <activity
+            android:name=".UpdateCatatan"
+            android:exported="false" />
+        <activity
+            android:name=".DetailCatatan"
+            android:exported="false" />
+        <activity
+            android:name=".CreateCatatan"
+            android:exported="false" />
+        <activity
             android:name=".Hdt4"
             android:exported="false" />
         <activity
